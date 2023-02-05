@@ -3,7 +3,6 @@ module github.com/gitansal/METRO
 go 1.19
 
 require (
-	github.com/gitansal/metro v0.0.0-20230205140819-79eca1b011a6
 	github.com/joho/godotenv v1.5.0
 	go.mongodb.org/mongo-driver v1.11.1
 )

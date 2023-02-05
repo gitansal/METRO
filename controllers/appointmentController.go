@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"context"
-	"fmt"
 	"log"
 	"net/http"
 	"time"
@@ -44,15 +43,15 @@ func Schedule() gin.HandlerFunc {
 
 		if count > 0 {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": "appointment already scheduled for this number"})
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "appointment was not scheduled"})
+			return
 		}
 		appointment.Created_at, _ = time.Parse(time.RFC3339, time.Now().Format(time.RFC3339))
 		appointment.Updated_at, _ = time.Parse(time.RFC3339, time.Now().Format(time.RFC3339))
 		appointment.ID = primitive.NewObjectID()
-
 		resultInsertionNumber, insertErr := appointmentCollection.InsertOne(ctx, appointment)
 		if insertErr != nil {
-			msg := fmt.Sprintf("appointment was not scheduled")
-			c.JSON(http.StatusInternalServerError, gin.H{"error": msg})
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "appointment was not scheduled"})
 			return
 		}
 		defer cancel()
