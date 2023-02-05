@@ -5,6 +5,7 @@ import (
 	"os"
 
 	"github.com/gin-gonic/gin"
+	"github.com/gitansal/METRO/routes"
 	"github.com/joho/godotenv"
 )
 
@@ -21,8 +22,7 @@ func main() {
 
 	router := gin.New()
 	router.Use(gin.Logger())
-
-	routes.appointmentRoutes(router)
+	routes.AppointmentRoutes(router)
 	router.GET("/api-3", func(c *gin.Context) {
 		c.JSON(200, gin.H{"success": "Access granted for api-3"})
 	})
