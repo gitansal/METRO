@@ -1,4 +1,4 @@
-module github.com/gitansal/metro
+module github.com/gitansal/METRO
 
 go 1.19
 
