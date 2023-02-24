@@ -34,7 +34,7 @@ func Schedule() gin.HandlerFunc {
 			return
 		}
 
-		count, err := appointmentCollection.CountDocuments(ctx, bson.M{"phone": appointment.Phone})
+		count, err := appointmentCollection.CountDocuments(ctx, bson.M{"user_id": appointment.Phone})
 		defer cancel()
 		if err != nil {
 			log.Panic(err)
@@ -42,13 +42,14 @@ func Schedule() gin.HandlerFunc {
 		}
 
 		if count > 0 {
-			c.JSON(http.StatusInternalServerError, gin.H{"error": "appointment already scheduled for this number"})
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "appointment already scheduled for this user"})
 			c.JSON(http.StatusInternalServerError, gin.H{"error": "appointment was not scheduled"})
 			return
 		}
 		appointment.Created_at, _ = time.Parse(time.RFC3339, time.Now().Format(time.RFC3339))
 		appointment.Updated_at, _ = time.Parse(time.RFC3339, time.Now().Format(time.RFC3339))
 		appointment.ID = primitive.NewObjectID()
+		//appointment.Appt_Date_Time, _ = time.Parse(time.RFC822, appointment.Appt_Date_Time.Format(time.RFC3339))
 		resultInsertionNumber, insertErr := appointmentCollection.InsertOne(ctx, appointment)
 		if insertErr != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": "appointment was not scheduled"})
