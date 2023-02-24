@@ -34,11 +34,11 @@ func Schedule() gin.HandlerFunc {
 			return
 		}
 
-		count, err := appointmentCollection.CountDocuments(ctx, bson.M{"user_id": appointment.Phone})
+		count, err := appointmentCollection.CountDocuments(ctx, bson.M{"user_id": appointment.User_id})
 		defer cancel()
 		if err != nil {
 			log.Panic(err)
-			c.JSON(http.StatusInternalServerError, gin.H{"error": "error occured while checking for the phone number"})
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "error occured while checking for the user id"})
 		}
 
 		if count > 0 {
